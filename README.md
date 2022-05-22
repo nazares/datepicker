@@ -1,4 +1,4 @@
-# Multilanguage Datepicker VanullaJS Webcomponent
+# Multilingual Datepicker VanullaJS Webcomponent
 
 ## Usage
 
