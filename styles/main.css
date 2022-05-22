@@ -57,3 +57,32 @@ h1 span {
 date-picker {
     margin: 0.3rem;
 }
+
+footer {
+    font-family: "Fira Code", monospace;
+    color: #555;
+    font-size: 0.7rem;
+    position: absolute;
+    bottom: 1rem;
+    left: 2rem;
+    opacity: 0.7;
+}
+
+footer span {
+    color: #f55;
+}
+
+footer span.heart {
+    display: inline-block;
+    transform: rotate(-90deg);
+    font-weight: 700;
+}
+
+footer a {
+    text-decoration: none;
+    color: inherit;
+}
+
+footer:hover {
+    opacity: 1;
+}
