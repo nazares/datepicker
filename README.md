@@ -17,7 +17,7 @@
 
 | Format | Description| Example returned values |
 |--|--|--|
-| Day --- |
+| Day --- <td colspan=3>|
 | d | Day of the month, 2 digits with leading zeros | 01 to 31|
 | D | A textual representation of a day, three letters | Mon through Sun |
 | j | Day of the month without leading zeros | 1 to 31 |
@@ -26,15 +26,15 @@
 | S | English ordinal suffix for the day of the month, 2 characters | st, nd, rd or th. Works well with j |
 | w | Numeric representation of the day of the week | 0 (for Sunday) through 6 (for Saturday) |
 | z | The day of the year (starting from 0) | 0 trough 365 |
-| Week --- |
+|<td colspan=3> Week --- |
 | W | ISO 8601 week number of year, weeks starting on Monday | Example: 20 (the 20th week in the year)
-| Month --- |
+|<td colspan=3>Month --- |
 | F | A full textual representation of a month, such as January or March | January through December |
 | m | Numeric representation of a month, with leading zeros | 01 through 12 |
 | M | A short textual representation of a month, three letters | Jan through Dec |
 | n | Numeric representation of a month, without leading zeros | 1 through 12 |
 | t | Number of days in the given month | 28 through 31 |
-| Year --- |
+|<td colspan=3>Year --- |
 | L | Whether it's a leap year | `true` if it is a leap year, `false` otherwise. |
 | Y | A full numeric representarion of a year | Examples: 1800 or 2022 |
 | y | A two digit representation of a year | Examples: 93 or 22 |
