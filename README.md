@@ -53,3 +53,5 @@ The language based on system locale.
 `const lang = window.navigator.language;`
 
 ![screenshot](/example/Screenshot%202022-05-22%20at%2011.14.52%20PM.png)
+
+You can test it [here](https://nsdatepicker.netlify.app).
