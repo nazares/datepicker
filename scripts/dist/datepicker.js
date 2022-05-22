@@ -326,7 +326,7 @@ class DatePicker extends HTMLElement {
     updateToggleText() {
         const date = this.date.format(this.format);
         this.toggleButton.textContent = date;
-        this.setAttribute("date", this.date.format('YYYY-MM-DD'));
+        this.setAttribute("date", this.date.format('Y-m-d'));
     }
     updateMonthDays() {
         this.calendarDaysContainer.innerHTML = '';
