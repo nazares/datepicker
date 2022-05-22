@@ -26,9 +26,9 @@
 | S | English ordinal suffix for the day of the month, 2 characters | st, nd, rd or th. Works well with j |
 | w | Numeric representation of the day of the week | 0 (for Sunday) through 6 (for Saturday) |
 | z | The day of the year (starting from 0) | 0 trough 365 |
-|<td colspan=3> Week --- |
+| <td colspan=3> Week --- | | |
 | W | ISO 8601 week number of year, weeks starting on Monday | Example: 20 (the 20th week in the year)
-|<td colspan=3>Month --- |
+| <td colspan=3> Month --- | | |
 | F | A full textual representation of a month, such as January or March | January through December |
 | m | Numeric representation of a month, with leading zeros | 01 through 12 |
 | M | A short textual representation of a month, three letters | Jan through Dec |
