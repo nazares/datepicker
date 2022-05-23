@@ -17,7 +17,7 @@
 
 | Format | Description| Example returned values |
 |--|--|--|
-| : Day --- :|||
+|^^  Day --- |||
 | d | Day of the month, 2 digits with leading zeros | 01 to 31|
 | D | A textual representation of a day, three letters | Mon through Sun |
 | j | Day of the month without leading zeros | 1 to 31 |
