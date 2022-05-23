@@ -54,4 +54,12 @@ The language based on system locale.
 
 ![screenshot](/example/Screenshot%202022-05-22%20at%2011.14.52%20PM.png)
 
-You can test it [here](https://nsdatepicker.netlify.app).
+Positioning __by default__: `potition = "bottom"`:
+
+`<date-picker position="top"></date-picker>`
+`<date-picker position="left"></date-picker>`
+`<date-picker position="right"></date-picker>`
+
+![screenshot](/example/Screenshot%202022-05-23%20at%2011.45.54%20PM.png)
+
+You can test it [on netlify](https://nsdatepicker.netlify.app).
