@@ -6,7 +6,7 @@ export default class DatePicker extends HTMLElement {
     constructor() {
         super();
 
-        this.format = 'MMM DD (DDD), YYYY';
+        this.format = 'F jS (D), Y';
         this.position = 'bottom';
         this.visible = false;
         this.date = null;
@@ -53,6 +53,33 @@ export default class DatePicker extends HTMLElement {
         document.addEventListener('click', (e) => this.handleClickOut(e));
 
         this.renderCalendarDays();
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (!this.mounted) return;
+
+        switch (name) {
+            case "date":
+                this.date = new Day(new Date(newValue));
+                this.calendar.goToDate(this.date.monthNumber, this.date.year);
+                this.renderCalendarDays();
+                this.updateToggleText();
+                break;
+            case "format":
+                this.format = newValue;
+                this.updateToggleText();
+                break;
+            case "visible":
+                this.visible = ['', 'true', 'false'].includes(newValue) ?
+                    newValue === '' || newValue === 'true' : this.visible;
+                this.toggleCalendar(this.visible);
+                break;
+            case "position":
+                this.position = DatePicker.position.includes(newValue) ?
+                    newValue : this.position;
+                this.calendarDropDown.className = `calendar-dropdown ${this.visible ? 'visible' : ''} ${this.position}`;
+                break;
+        }
     }
 
     toggleCalendar(visible = null) {
@@ -205,6 +232,11 @@ export default class DatePicker extends HTMLElement {
     renderCalendarDays() {
         this.updateHeaderText();
         this.updateMonthDays();
+        this.calendarDateElement.focus();
+    }
+
+    static get observedAttributes() {
+        return ['date', 'format', 'visible', 'position'];
     }
 
     static get position() {
@@ -275,6 +307,24 @@ export default class DatePicker extends HTMLElement {
             transition: all .5s ease-in-out;
             z-index: 9999;
         }
+
+        .calendar-dropdown.top {
+            top: auto;
+            bottom: 100%;
+            transform: translate(-50%, -8px);
+        }
+
+        .calendar-dropdown.left {
+            top: 50%;
+            left: 0;
+            transform: translate(calc(-8px + -100%), -50%);
+          }
+
+          .calendar-dropdown.right {
+            top: 50%;
+            left: 100%;
+            transform: translate(8px, -50%);
+          }
 
         .today-btn {
             position: absolute;
@@ -410,7 +460,7 @@ export default class DatePicker extends HTMLElement {
         <div class="calendar-dropdown ${this.visible ? 'visible' : ''} ${this.position}">
             <div class="header">
                 <button type="button" class="prev-month" aria-label="previous month"></button>
-                <h4 tabindex="0" aria-label="current month ${date}">
+                <h4 tabindex="0" aria-label="current month ${monthYear}">
                     ${monthYear}
                 </h4>
                 <button type="button" class="prev-month" aria-label="next month"></button>
