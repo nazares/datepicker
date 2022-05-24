@@ -27,9 +27,7 @@ Date.prototype.daysInMonth = function () {
     let date = new Date(this);
     let year = new Date(this).getFullYear();
     let numberOfDays = monthsSize[date.getMonth()];
-    if (date.getMonth() + 1 === 2) {
-        numberOfDays += isLeapYear(new Date().getFullYear()) ? 1 : 0;
-    }
+    if (date.getMonth() + 1 === 2) { numberOfDays += isLeapYear(new Date().getFullYear()) ? 1 : 0; }
     return numberOfDays;
 };
 function isLeapYear(year) {
@@ -56,12 +54,9 @@ class Day {
         this.leap = date.isLeap(this.year);
         this.dIM = date.daysInMonth();
     }
-    get isToday() {
-        return this.isEqualTo(new Date());
-    }
+    get isToday() { return this.isEqualTo(new Date()); }
     isEqualTo(date) {
         date = date instanceof Day ? date.Date : date;
-
         return date.getDate() === this.date &&
             date.getMonth() === this.monthNumber - 1 &&
             date.getFullYear() === this.year;
@@ -101,9 +96,7 @@ class Month {
         this.number = day.monthNumber;
         this.year = day.year;
         this.numberOfDays = monthsSize[this.number - 1];
-        if (this.number === 2) {
-            this.numberOfDays += isLeapYear(day.year) ? 1 : 0;
-        }
+        if (this.number === 2) { this.numberOfDays += isLeapYear(day.year) ? 1 : 0; }
         this[Symbol.iterator] = function* () {
             let number = 1;
             yield this.getDay(number);
@@ -113,9 +106,7 @@ class Month {
             }
         };
     }
-    getDay(date) {
-        return new Day(new Date(this.year, this.number - 1, date), this.lang);
-    }
+    getDay(date) { return new Day(new Date(this.year, this.number - 1, date), this.lang); }
 }
 class Calendar {
     constructor(year = null, monthNumber = null, lang = 'default') {
@@ -195,6 +186,7 @@ class DatePicker extends HTMLElement {
         this.date = null;
         this.mounted = false;
         this.toggleButton = null;
+        this.input = null;
         this.todayButton = null;
         this.calendarDropDown = null;
         this.calendarDateElement = null;
@@ -218,6 +210,9 @@ class DatePicker extends HTMLElement {
         this.mounted = true;
         this.toggleButton = this.shadow.querySelector('.date-toggle');
         this.calendarDropDown = this.shadow.querySelector('.calendar-dropdown');
+        // for PHP post method
+        // this.input = document.querySelector("input[name=" + this.getAttribute('postname') + "]");
+        // this.input.value = this.date.format('d-m-Y');
         this.todayButton = this.shadow.querySelector('.today-btn');
         const [prevButton, calendarDateElement, nextButton] = this.calendarDropDown
             .querySelector('.header').children;
@@ -232,7 +227,6 @@ class DatePicker extends HTMLElement {
     }
     attributeChangedCallback(name, oldValue, newValue) {
         if (!this.mounted) return;
-
         switch (name) {
             case "date":
                 this.date = new Day(new Date(newValue));
@@ -281,7 +275,6 @@ class DatePicker extends HTMLElement {
         this.renderCalendarDays();
     }
     goToday() {
-        let day = new Day();
         this.calendar.goToday();
         this.renderCalendarDays();
         this.selectDay(this.shadow.querySelector('.today'), new Day());
@@ -352,7 +345,8 @@ class DatePicker extends HTMLElement {
     updateToggleText() {
         const date = this.date.format(this.format);
         this.toggleButton.textContent = date;
-        this.setAttribute("date", this.date.format('Y-m-d'));
+        // for PHP post method
+        // this.input.value = this.date.format('d-m-Y');
     }
     updateMonthDays() {
         this.calendarDaysContainer.innerHTML = '';
@@ -383,16 +377,211 @@ class DatePicker extends HTMLElement {
         this.updateMonthDays();
         this.calendarDateElement.focus();
     }
+    static get observedAttributes() {
+        return ['date', 'format', 'visible', 'position'];
+    }
     static get position() {
         return ['top', 'left', 'bottom', 'right'];
     }
     get style() {
-        return `:host {position:relative;font-family:monospace;}.date-toggle{display:flex;justify-content:center;align-items:center;padding:0 0 0 1rem;border:none;-webkit-appearance:none;-moz-appearance:none;appearance:none;background: #eee;color:#333;border-radius: 5px;border:2px solid #000;font-weight:bold;cursor: pointer;text-transform:capitalize;font-family:'Fira Code',monospace;vertical-align:middle;}.date-toggle::after{content:'cal';display:inline-block;padding:.45rem .8rem;margin:0 0 0 1rem;background:#000;color:#fff;border-color:#000c;border-left:1px solid #000;font-size:.7rem;}.date-toggle.active::after{background:#f55;border-radius:0 3px 3px 0;}.calendar-dropdown{display:none;height:275px;position:absolute;top:100%;left:50%;transform:translate(-50%,8px);padding:1rem;background:#fff;border-radius:5px;border:1px solid #eee;transition:all .5s ease-in-out;z-index:9999;}.calendar-dropdown.top {top:auto;bottom:100%;transform:translate(-50%,-8px);}.calendar-dropdown.left{top:50%;left:0;transform:translate(calc(-8px + -100%),-50%);}.calendar-dropdown.right{top:50%;left:100%;transform:translate(8px, -50%);}.today-btn {position:absolute;bottom:.5rem;width:calc(100% - 2rem);text-align:center;cursor:pointer;}.calendar-dropdown.visible{display:block;opacity:1;}.header{display:flex;justify-content:space-between;align-items:center;margin:5px 0 10px;}.header h4{margin:0;text-transform:capitalize;font-size:1rem;font-weight:bold;}.header button{padding:0;border:8px solid transparent;border-radius:2px;border-top-color:#555;transform:rotate(90deg);cursor:pointer;background:none;position:relative;}.header button::after{content:'';display:block;width:25px;height:25px;position:absolute;left:50%;top:50%;transform:translate(-50%, -50%);}.header button:last-of-type{transform:rotate(-90deg);}.week-days{display:grid;grid-template-columns:repeat(7, 1fr);margin-bottom:5px;-webkit-user-select:none;cursor:default;}.week-days span{display:flex;justify-content:center;font-size:10px;text-transform:capitalize;}.week-days span:first-child{color:red;}.week-days span:last-child{color:red;}.month-days{display:grid;grid-template-columns:repeat(7,1fr);grid-gap:5px;}.month-day{border:none;background:#eee;opacity:.3;font-family:'Fira Code',monospace;padding:5px 6px;display:flex;justify-content:center;align-items:center;border-radius:5px;cursor:pointer;}.month-day.current{display:flex;opacity:1;border:1px solid #0002;}.month-day.weekend{color:#f55;}.month-day.today{background:#f55;border:1px solid #000;color:#000;}.month-day.selected{background:#9f9;border-color:#0008;color:#000;}.month-day:hover{background:#000a;color:#fff;}`;
+        return `
+        :host {
+            position: relative;
+            font-family: monospace;
+        }
+        .date-toggle {
+            display:flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 0 0 1rem;
+            border: none;
+            -webkit-appearance:none;
+            -moz-appearance:none;
+            appearance:none;
+            background: #eee;
+            color:#333;
+            border-radius: 5px;
+            border: 2px solid #000;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: capitalize;
+            font-family: 'Fira Code', monospace;
+            vertical-align: middle;
+        }
+        .date-toggle::after {
+            content: 'cal';
+            display: inline-block;
+            padding: .45rem .8rem;
+            margin: 0 0 0 1rem;
+            background: #000;
+            color: #fff;
+            border-color: #000c;
+            border-left: 1px solid #000;
+            font-size: .7rem;
+        }
+        .date-toggle.active::after {
+            background: #f55;
+            border-radius:  0 3px 3px 0;
+        }
+        .calendar-dropdown {
+            display: none;
+            height: 275px;
+            position: absolute;
+            top: 100%;
+            left:50%;
+            transform: translate(-50%, 8px);
+            padding: 1rem;
+            background: #fff;
+            border-radius: 5px;
+            border: 1px solid #eee;
+            transition: all .5s ease-in-out;
+            z-index: 9999;
+        }
+        .calendar-dropdown.top {
+            top: auto;
+            bottom: 100%;
+            transform: translate(-50%, -8px);
+        }
+        .calendar-dropdown.left {
+            top: 50%;
+            left: 0;
+            transform: translate(calc(-8px + -100%), -50%);
+          }
+          .calendar-dropdown.right {
+            top: 50%;
+            left: 100%;
+            transform: translate(8px, -50%);
+          }
+        .today-btn {
+            position: absolute;
+            bottom: .5rem;
+            width: calc(100% - 2rem);
+            text-align: center;
+            cursor: pointer;
+        }
+        .calendar-dropdown.visible {
+            display: block;
+            opacity: 1;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0 10px;
+        }
+        .header h4 {
+            margin: 0;
+            text-transform: capitalize;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        .header button {
+            padding: 0;
+            border: 8px solid transparent;
+            width: 0;
+            height: 0;
+            border-radius: 2px;
+            border-top-color: #555;
+            transform:rotate(90deg);
+            cursor: pointer;
+            background: none;
+            position: relative;
+        }
+        .header button::after {
+            content: '';
+            display: block;
+            width:25px;
+            height:25px;
+            position: absolute;
+            left:50%;
+            top:50%;
+            transform: translate(-50%, -50%);
+            // background: red;
+        }
+        .header button:last-of-type {
+            transform:rotate(-90deg);
+        }
+        .week-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            margin-bottom: 5px;
+            -webkit-user-select: none;
+            cursor: default;
+        }
+        .week-days span{
+            display: flex;
+            justify-content: center;
+            font-size: 10px;
+            text-transform: capitalize;
+        }
+        .week-days span:first-child {
+            color: red;
+        }
+        .week-days span:last-child {
+            color: red;
+        }
+        .month-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            grid-gap: 5px;
+        }
+        .month-day {
+            border: none;
+            background: #eee;
+            opacity: 0.3;
+            font-family: 'Fira Code', monospace;
+            // font-size: .55rem;
+            padding: 5px 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            cursor:pointer;
+        }
+        .month-day.current {
+            display: flex;
+            opacity: 1;
+            border: 1px solid #0002;
+        }
+        .month-day.weekend {
+            color: #f55;
+        }
+        .month-day.today {
+            background: #f55;
+            border: 1px solid #000;
+            color: #000;
+        }
+        .month-day.selected {
+            background: #9f9;
+            border-color: #0008;
+            color: #000;
+        }
+        .month-day:hover {
+            background: #000a;
+            color: #fff;
+        }
+        `;
     }
     render() {
         const monthYear = `${this.calendar.month.name}, ${this.calendar.year}`;
         const date = this.date.format(this.format);
-        this.shadow.innerHTML = `<style>${this.style}</style><div class="date-p"><button type="button" class="date-toggle">${date}</button></div><div class="calendar-dropdown ${this.visible ? 'visible' : ''} ${this.position}"><div class="header"><button type="button" class="prev-month" aria-label="previous month"></button><h4 tabindex="0" aria-label="current month ${monthYear}">${monthYear}</h4><button type="button" class="prev-month" aria-label="next month"></button></div><div class="week-days">${this.getWeekDaysElementStrings()}</div><div class="month-days"></div><div class="today-btn">Today</div></div>`;
+        this.shadow.innerHTML = `
+        <style>${this.style}</style>
+        <div class="date-p">
+            <button type="button" class="date-toggle">${date}</button>
+        </div>
+        <div class="calendar-dropdown ${this.visible ? 'visible' : ''} ${this.position}">
+            <div class="header">
+                <button type="button" class="prev-month" aria-label="previous month"></button>
+                <h4 tabindex="0" aria-label="current month ${monthYear}">
+                    ${monthYear}
+                </h4>
+                <button type="button" class="prev-month" aria-label="next month"></button>
+            </div>
+            <div class="week-days">${this.getWeekDaysElementStrings()}</div>
+            <div class="month-days"></div>
+            <div class="today-btn">Today</div>
+        </div>
+        `;
     }
 }
-customElements.define("date-picker", DatePicker);
