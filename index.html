@@ -11,14 +11,29 @@
 </head>
 
 <body>
-    <h1><span>&lt;/</span>datepicker<span>S&gt;</span></h1>
-    <date-picker format="F jS (D), Y"></date-picker>
-    <date-picker format="D, d M Y" position="right"></date-picker>
-    <!-- <script type="module" src="scripts/date-picker.js"></script> -->
+    <div class="container">
+        <h1><span>&lt;/</span>datepicker<span>S&gt;</span></h1>
+        <!-- POST data from web component using PHP -->
+        <!-- <form action="" method="post"> -->
+        <!-- <input type="text" name="date1" value="" placeholder="date from 1st datepicker" hidden> -->
+        <date-picker format="F jS (D), Y" postname="date1"></date-picker>
+        <!-- <input type="text" name="date2" value="" placeholder="date from 2nd datepicker" hidden> -->
+        <date-picker format="D, d M Y" position="right" postname="date2"></date-picker>
+        <!-- <input type="submit" value="Send"> -->
+        <!-- </form> -->
+        <!-- <script type="module" src="scripts/date-picker.js"></script> -->
+    </div>
     <footer>
         <p>created with <span class="heart">&lt;3</span> by <span>&lt;/</span><a
                 href="https://nazares.ru">nazare<span>S&gt;</span></a></p>
     </footer>
+
+    <!-- <?php if (!empty($_POST)) : ?>
+        <div class="output">
+            <p>A date from 1st date-picker: <strong><?php echo $_POST['date1']; ?></strong></p>
+            <p>A date from 2nd date-picker: <strong><?php echo $_POST['date2']; ?></strong></p>
+        </div>
+    <?php endif; ?> -->
 </body>
 
 </html>
