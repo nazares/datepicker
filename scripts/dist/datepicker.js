@@ -585,3 +585,4 @@ class DatePicker extends HTMLElement {
         `;
     }
 }
+customElements.define("date-picker", DatePicker);
