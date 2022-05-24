@@ -12,6 +12,7 @@ export default class DatePicker extends HTMLElement {
         this.date = null;
         this.mounted = false;
         this.toggleButton = null;
+        this.input = null;
         this.todayButton = null;
         this.calendarDropDown = null;
         this.calendarDateElement = null;
@@ -41,6 +42,9 @@ export default class DatePicker extends HTMLElement {
 
         this.toggleButton = this.shadow.querySelector('.date-toggle');
         this.calendarDropDown = this.shadow.querySelector('.calendar-dropdown');
+        // for PHP post method
+        // this.input = document.querySelector("input[name=" + this.getAttribute('postname') + "]");
+        // this.input.value = this.date.format('d-m-Y');
         this.todayButton = this.shadow.querySelector('.today-btn');
         const [prevButton, calendarDateElement, nextButton] = this.calendarDropDown
             .querySelector('.header').children;
@@ -111,7 +115,7 @@ export default class DatePicker extends HTMLElement {
     }
 
     goToday() {
-        let day = new Day();
+        // let day = new Day();
         this.calendar.goToday();
         this.renderCalendarDays();
         this.selectDay(this.shadow.querySelector('.today'), new Day());
@@ -196,7 +200,8 @@ export default class DatePicker extends HTMLElement {
     updateToggleText() {
         const date = this.date.format(this.format);
         this.toggleButton.textContent = date;
-        this.setAttribute("date", this.date.format('Y-m-d'));
+        // for PHP post method
+        // this.input.value = this.date.format('d-m-Y');
     }
 
     updateMonthDays() {
@@ -288,12 +293,8 @@ export default class DatePicker extends HTMLElement {
             border-radius:  0 3px 3px 0;
         }
 
-
         .calendar-dropdown {
-            // font-family: 'Fira Code', monospace;
             display: none;
-            // opacity: 0;
-            // width:200px;
             height: 275px;
             position: absolute;
             top: 100%;
@@ -302,7 +303,6 @@ export default class DatePicker extends HTMLElement {
             padding: 1rem;
             background: #fff;
             border-radius: 5px;
-            // box-shadow: 0 0 1px rgba(0,0,0,0.2);
             border: 1px solid #eee;
             transition: all .5s ease-in-out;
             z-index: 9999;
@@ -455,7 +455,7 @@ export default class DatePicker extends HTMLElement {
         this.shadow.innerHTML = `
         <style>${this.style}</style>
         <div class="date-p">
-        <button type="button" class="date-toggle">${date}</button>
+            <button type="button" class="date-toggle">${date}</button>
         </div>
         <div class="calendar-dropdown ${this.visible ? 'visible' : ''} ${this.position}">
             <div class="header">
