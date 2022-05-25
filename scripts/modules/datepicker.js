@@ -115,7 +115,6 @@ export default class DatePicker extends HTMLElement {
     }
 
     goToday() {
-        // let day = new Day();
         this.calendar.goToday();
         this.renderCalendarDays();
         this.selectDay(this.shadow.querySelector('.today'), new Day());
