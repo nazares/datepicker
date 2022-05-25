@@ -94,6 +94,12 @@ footer:hover {
     opacity: 1;
 }
 
+p {
+    margin: 0;
+    font-family: "Fira Code", monospace;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
 .output {
     display: none; /* For PHP Post method */
     padding: 0.5rem 1rem;
@@ -101,11 +107,8 @@ footer:hover {
     background: rgba(176, 235, 112, 0.366);
 }
 
-.output p {
-    margin: 0;
-    line-height: 1.5;
-    font-family: "Fira Code", monospace;
-    font-size: 0.8rem;
+date-picker {
+    margin-bottom: 1rem;
 }
 
 input[type="submit"] {
