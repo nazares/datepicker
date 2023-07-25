@@ -70,7 +70,7 @@ class Day {
             .replace(/\bl\b/, this.day)
             .replace(/\bN\b/, this.ISODay)
             .replace(/\bS\b/, this.suffix)
-            .replace(/\bjS\b/, this.date + this.suffix)
+            .replace(/\bjS\b/, this.date.toString().padStart(2, '\u00a0') + this.suffix)
             .replace(/\bw\b/, this.dayNumber - 1)
             .replace(/\bz\b/, this.dOY - 1)
             // Week ---
