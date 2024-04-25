@@ -125,3 +125,28 @@ input[type="submit"]:hover {
     background: #000;
     color: #fff;
 }
+
+.gh-link {
+    display: flex;
+    align-items: center;
+    font-family: "Fira Code", monospace;
+    font-size: .9rem;
+
+}
+
+.gh-link i {
+    font-size: 1.2rem;
+}
+
+.gh-link a{
+    text-decoration: none;
+    color:initial;
+    border: 2px solid transparent;
+
+}
+
+.gh-link a:hover{
+    /* text-decoration: underline; */
+    /* text-decoration-color: #f55; */
+    border-bottom-color: #f55;
+}
